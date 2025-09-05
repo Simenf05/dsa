@@ -19,11 +19,8 @@ model += 3000 * x + 1000 * y
 
 # Eksempel:
 
-model += x >= 0 and y >= 0 
+model += (x >= 0) and (y >= 0)
 model += 3000 * x + 1000 * y <= 180
-
-# Print modellen
-# print(model)
 
 # LÃ¸s det lineÃ¦re programmet
 status = model.solve()
