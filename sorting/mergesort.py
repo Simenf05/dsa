@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
 import random
 from itertools import combinations
 
@@ -21,7 +22,7 @@ generate_random_tests_merge = False
 # Kontrollerer om det genereres tilfeldige instanser for merge_sort.
 generate_random_tests_merge_sort = False
 # Antall tilfeldige tester som genereres
-random_tests = 10
+random_tests = 100
 # Lavest mulig antall verdier i generert instans.
 n_lower = 3
 # HÃ¸yest mulig antall verdier i generert instans.
@@ -35,13 +36,50 @@ seed = 0
 
 
 def merge(A, p, q, r):
-    # Skriv din kode her
-    pass
 
+    n_1 = q - p + 1
+    n_2 = r - q
+
+    arr1 = []
+    arr2 = []
+
+    for i in range(0, n_1):
+        arr1.append(A[p+i])
+    for i in range(0, n_2):
+        arr2.append(A[q+i+1])
+
+    arr1.append(sys.maxsize)
+    arr2.append(sys.maxsize)
+
+    print(arr1)
+    print(arr2)
+
+    i = 0
+    j = 0
+
+    for k in range(p, r+1):
+        if arr1[i] <= arr2[j]:
+            A[k] = arr1[i]
+            i += 1
+        else:
+            A[k] = arr2[j]
+            j += 1
+
+arr1 = [3]
+arr2 = [1, 2]
+arr = arr1 + arr2
+#arr = [1, 0, 10, 1, 9, 8, 10, 4, 6, 4, 9, 7]
+merge(arr, 0, 0, 1)
+print(arr)
+exit()
 
 def merge_sort(A, p, r):
-    # Skriv din kode her
-    pass
+    if p < r:
+        q = (p+r) // 2
+        merge_sort(A, p, q)
+        merge_sort(A, q+1, r)
+        merge(A, p, q, r)
+
 
 
 # Hardkodete tester for merge pÃ¥ format (A, p, q, r)
@@ -147,6 +185,7 @@ if not failed and test_merge:
     print("merge ga riktig svar for alle eksempeltestene")
 elif test_merge:
     print("-"*50)
+
 
 
 # Hardkodete merge_sort tester pÃ¥ format: (A, p, r)
