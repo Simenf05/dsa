@@ -24,7 +24,30 @@ numbers_upper = 8
 # hver gang, om verdiene over ikke endres.
 seed = 0
 
+def partition(A, p, r):
+    pass
 
+def random_partition(A, p, r):
+
+    return 0
+
+def random_select(A, p, r, i):
+    if p == r:
+        return A[p]
+    q = random_partition(A, p, r)
+    k = q - p + 1
+
+    if i == k:
+        return A[q]
+    elif i < k:
+        return random_select(A, p, q - 1, i)
+    else: 
+        return random_select(A, q + 1, r, i - k)
+
+def select(A, p, r, i):
+    while (r - p) % 5 != 0:
+        for j in range(p, r):
+            pass
 
 
 def k_largest(A, n, k):
