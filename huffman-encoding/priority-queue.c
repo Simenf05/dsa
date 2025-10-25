@@ -1,9 +1,5 @@
-#include <stdio.h>
-
-typedef struct {
-    char ch;
-    int value;
-} Satdata;
+#include <limits.h>
+#include "priority-queue.h"
 
 int parent(int i) {
     return i / 2;
@@ -26,23 +22,23 @@ right(int i) {
 }
 
 void 
-min_heapify(int A[], int heapsize, int i)
+min_heapify(Data A[], int heapsize, int i)
 {
     int l = left(i);
     int r = right(i);
     int smallest;
 
-    if (l < heapsize && A[l] < A[i]) {
+    if (l < heapsize && A[l].key < A[i].key) {
         smallest = l;
     } else {
         smallest = i;
     }
-    if (r < heapsize && A[r] < A[smallest]) {
+    if (r < heapsize && A[r].key < A[smallest].key) {
         smallest = r;
     }
 
     if (smallest != i) {
-        int temp = A[i];
+        Data temp = A[i];
         A[i] = A[smallest];
         A[smallest] = temp;
         min_heapify(A, heapsize, smallest);
@@ -50,35 +46,33 @@ min_heapify(int A[], int heapsize, int i)
 }
 
 void 
-build_min_heap(int A[], int length) 
+build_min_heap(Data A[], int length) 
 {
     for (int i = length / 2; i >= 0; i--) {
         min_heapify(A, length, i);
     }
 }
 
-int 
-heap_extract_min(int A[], int length) 
+Data 
+heap_extract_min(Data A[], int *heapsize) 
 {
-    if (length < 0) {
-        return -1;
-    }
-    int min = A[0];
-    A[0] = A[length-1];
-    min_heapify(A, length-1, 0);
+    (*heapsize)--;
+    Data min = A[0];
+    A[0] = A[*heapsize];
+    min_heapify(A, *heapsize, 0);
     return min;
 }
 
 int 
-heap_decrease_key(int A[], int i, int key) 
+heap_decrease_key(Data A[], int i, int key) 
 {
-    if (key > A[i]) {
+    if (key > A[i].key) {
         return -1;
     }
 
-    A[i] = key;
-    while (i > 0 && A[parent(i)] > A[i]) {
-        int temp = A[i];
+    A[i].key = key;
+    while (i > 0 && A[parent(i)].key > A[i].key) {
+        Data temp = A[i];
         A[i] = A[parent(i)];
         A[parent(i)] = temp;
         i = parent(i);
@@ -87,28 +81,18 @@ heap_decrease_key(int A[], int i, int key)
     return 0;
 }
 
-
-int 
-main() 
-{
-
-
-    Satdata data1 = {'a', 5};
-    Satdata data2 = {'b', 10};
-    Satdata data3 = {'c', 13};
-
-    int arr[] = {1, 3, 4, 5, 2};
-    int len = 5;
-
-    build_min_heap(arr, len);
-    heap_decrease_key(arr, 3, 0);
-    
-    for (int i = 0; i < len; i++) {
-        printf("%d\n", arr[i]);
+int
+min_heap_insert(Data A[], int *heapsize, int length, Data new_data) {
+    if ((*heapsize) >= length) {
+        return -1;
     }
-    
+    (*heapsize)++;
+    int key = new_data.key;
+    void *ptr = new_data.ptr;
+    Data data = {ptr, INT_MAX};
+    A[(*heapsize)-1] = data;
+    heap_decrease_key(A, *heapsize, key);
     return 0;
 }
-
 
 
