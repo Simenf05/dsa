@@ -56,9 +56,9 @@ build_min_heap(Data A[], int length)
 Data 
 heap_extract_min(Data A[], int *heapsize) 
 {
-    (*heapsize)--;
     Data min = A[0];
-    A[0] = A[*heapsize];
+    A[0] = A[(*heapsize)-1];
+    (*heapsize)--;
     min_heapify(A, *heapsize, 0);
     return min;
 }
@@ -83,7 +83,7 @@ heap_decrease_key(Data A[], int i, int key)
 
 int
 min_heap_insert(Data A[], int *heapsize, int length, Data new_data) {
-    if ((*heapsize) >= length) {
+    if ((*heapsize) > length) {
         return -1;
     }
     (*heapsize)++;
@@ -91,7 +91,10 @@ min_heap_insert(Data A[], int *heapsize, int length, Data new_data) {
     void *ptr = new_data.ptr;
     Data data = {ptr, INT_MAX};
     A[(*heapsize)-1] = data;
-    heap_decrease_key(A, *heapsize, key);
+
+
+    heap_decrease_key(A, (*heapsize)-1, key);
+
     return 0;
 }
 
