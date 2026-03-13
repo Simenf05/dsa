@@ -1,0 +1,19 @@
+# Ignore common compiled binaries and build artifacts
+**/dijkstra
+**/insertion
+**/merge
+**/huffman
+**/priority-queue
+**/list
+**/minimal-jumps
+**/max-subarray
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Editor/project files
+*.swp
+*.swo
+.idea/
+.vscode/
